@@ -48,7 +48,7 @@ export async function createBlogPost(
 
   try {
     const supabase = await createClient();
-    const { error } = await supabase.from("blog_posts").insert(payload);
+    const { error } = await supabase.from("blog_posts").insert([payload] as never[]);
 
     if (error) {
       console.error("Gagal membuat artikel:", error);
@@ -99,7 +99,7 @@ export async function updateBlogPost(
 
   try {
     const supabase = await createClient();
-    const { error } = await supabase.from("blog_posts").update(payload).eq("id", id);
+    const { error } = await supabase.from("blog_posts").update(payload as never).eq("id", id);
 
     if (error) {
       console.error("Gagal update artikel:", error);

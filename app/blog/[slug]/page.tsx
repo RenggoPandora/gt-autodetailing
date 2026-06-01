@@ -28,13 +28,15 @@ export const generateMetadata = async ({ params }: BlogDetailPageProps): Promise
     };
   }
 
+  const post = data as Pick<BlogPost, "title" | "excerpt" | "thumbnail">;
+
   return {
-    title: data.title,
-    description: data.excerpt ?? "Artikel GT Autodetailing.",
+    title: post.title,
+    description: post.excerpt ?? "Artikel GT Autodetailing.",
     openGraph: {
-      title: data.title,
-      description: data.excerpt ?? "Artikel GT Autodetailing.",
-      images: data.thumbnail ? [{ url: data.thumbnail }] : undefined,
+      title: post.title,
+      description: post.excerpt ?? "Artikel GT Autodetailing.",
+      images: post.thumbnail ? [{ url: post.thumbnail }] : undefined,
     },
   };
 };
