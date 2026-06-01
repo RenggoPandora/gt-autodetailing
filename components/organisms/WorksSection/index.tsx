@@ -1,7 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
-
 import { Container, MStripe } from "@/components/atoms";
 import { SectionHeading, WorkTile } from "@/components/molecules";
 
@@ -27,19 +23,17 @@ const WorksSection = () => {
         />
         <MStripe className="mt-8" />
       </Container>
-      <div className="mt-10 overflow-hidden">
-        <motion.div
-          className="flex w-max gap-6"
-          animate={{ x: ["0%", "-50%"] }}
-          transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
-        >
-          {works.map((work) => (
-            <WorkTile key={`${work.id}-group-a`} src={work.src} alt={work.alt} />
-          ))}
-          {works.map((work) => (
-            <WorkTile key={`${work.id}-group-b`} src={work.src} alt={work.alt} />
-          ))}
-        </motion.div>
+      <div className="mt-10 overflow-hidden marquee">
+        <div className="marquee-track">
+          <div className="marquee-group">
+            {works.map((work) => (
+              <WorkTile key={`${work.id}-group-a`} src={work.src} alt={work.alt} />
+            ))}
+            {works.map((work) => (
+              <WorkTile key={`${work.id}-group-b`} src={work.src} alt={work.alt} />
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
