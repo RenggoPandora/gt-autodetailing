@@ -18,7 +18,7 @@ const HeroSection = () => {
         className="object-cover"
         sizes="100vw"
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/55 to-black/90" />
+      <div className="absolute inset-0 bg-linear-to-b from-black/80 via-black/55 to-black/90" />
       <Container className="relative">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.4em] text-white/60">

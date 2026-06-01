@@ -6,9 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "gen:types": "supabase gen types typescript --project-id bfvuozerfitayqtcdqjr --schema public > types/supabase.ts"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.5.2",
+    "@supabase/supabase-js": "^2.106.0",
     "clsx": "^2.1.1",
     "framer-motion": "^11.18.2",
     "next": "16.2.6",

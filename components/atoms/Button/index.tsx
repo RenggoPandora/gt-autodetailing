@@ -13,6 +13,8 @@ interface ButtonProps {
   className?: string;
   target?: "_blank" | "_self" | "_parent" | "_top";
   rel?: string;
+  type?: "button" | "submit" | "reset";
+  disabled?: boolean;
 }
 
 const Button = ({
@@ -23,6 +25,8 @@ const Button = ({
   className,
   target,
   rel,
+  type = "button",
+  disabled = false,
 }: ButtonProps) => {
   const baseClasses =
     "inline-flex items-center justify-center gap-2 border text-xs font-semibold uppercase tracking-[0.2em] transition-colors";
@@ -37,7 +41,13 @@ const Button = ({
     lg: "h-14 px-8",
   };
 
-  const classes = cn(baseClasses, variantClasses[variant], sizeClasses[size], className);
+  const classes = cn(
+    baseClasses,
+    variantClasses[variant],
+    sizeClasses[size],
+    disabled && "cursor-not-allowed opacity-60",
+    className
+  );
 
   if (href) {
     const isExternal =
@@ -60,7 +70,7 @@ const Button = ({
   }
 
   return (
-    <button className={classes} type="button">
+    <button className={classes} type={type} disabled={disabled}>
       {label}
     </button>
   );
