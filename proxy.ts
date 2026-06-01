@@ -4,12 +4,31 @@ import { NextResponse, type NextRequest } from "next/server";
 import type { Database } from "@/types/supabase";
 
 export async function proxy(request: NextRequest) {
+  const pathname = request.nextUrl.pathname;
+  const isAdminPath = pathname.startsWith("/admin");
+  const isAdminLoginPath = pathname.startsWith("/admin/login");
+
+  if (!isAdminPath) {
+    return NextResponse.next({ request });
+  }
+
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseAnonKey) {
+    if (isAdminLoginPath) {
+      return NextResponse.next({ request });
+    }
+
+    const loginUrl = new URL("/admin/login", request.url);
+    loginUrl.searchParams.set("redirectTo", pathname);
+    return NextResponse.redirect(loginUrl);
+  }
+
   let supabaseResponse = NextResponse.next({ request });
 
-  const supabase = createServerClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
+  try {
+    const supabase = createServerClient<Database>(supabaseUrl, supabaseAnonKey, {
       cookies: {
         getAll() {
           return request.cookies.getAll();
@@ -28,29 +47,34 @@ export async function proxy(request: NextRequest) {
           );
         },
       },
+    });
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (isAdminLoginPath && user) {
+      return NextResponse.redirect(new URL("/admin/blog", request.url));
     }
-  );
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (
-    request.nextUrl.pathname.startsWith("/admin") &&
-    !request.nextUrl.pathname.startsWith("/admin/login")
-  ) {
-    if (!user) {
+    if (!isAdminLoginPath && !user) {
       const loginUrl = new URL("/admin/login", request.url);
-      loginUrl.searchParams.set("redirectTo", request.nextUrl.pathname);
+      loginUrl.searchParams.set("redirectTo", pathname);
       return NextResponse.redirect(loginUrl);
     }
-  }
 
-  if (request.nextUrl.pathname === "/admin/login" && user) {
-    return NextResponse.redirect(new URL("/admin/blog", request.url));
-  }
+    return supabaseResponse;
+  } catch (error) {
+    console.error("Proxy admin gagal memverifikasi sesi:", error);
 
-  return supabaseResponse;
+    if (isAdminLoginPath) {
+      return NextResponse.next({ request });
+    }
+
+    const loginUrl = new URL("/admin/login", request.url);
+    loginUrl.searchParams.set("redirectTo", pathname);
+    return NextResponse.redirect(loginUrl);
+  }
 }
 
 export const config = {

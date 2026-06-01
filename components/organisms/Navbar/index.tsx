@@ -37,16 +37,30 @@ const Navbar = () => {
           <Button href={whatsappLink} label="Konsultasi Gratis" target="_blank" />
         </div>
         <button
-          className="inline-flex items-center justify-center border border-white/30 px-3 py-2 text-[0.65rem] uppercase tracking-[0.3em] text-white/80 md:hidden"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/5 text-white transition-colors hover:bg-white/10 active:bg-white/15 md:hidden"
           type="button"
-          onClick={() => setIsOpen(true)}
-          aria-label="Buka menu"
+          onClick={() => setIsOpen((open) => !open)}
+          aria-label={isOpen ? "Tutup menu" : "Buka menu"}
+          aria-expanded={isOpen}
+          aria-controls="mobile-navigation"
         >
-          Menu
+          <span className="sr-only">{isOpen ? "Tutup menu" : "Buka menu"}</span>
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="h-5 w-5"
+          >
+            {isOpen ? <path d="M6 6l12 12M18 6 6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
+          </svg>
         </button>
       </Container>
       {isOpen ? (
-        <div className="fixed inset-0 z-60 bg-black/95">
+        <div className="fixed inset-0 z-[60] bg-black/95">
           <div className="flex h-full flex-col">
             <MStripe />
             <div className="flex items-center justify-between border-b border-white/10 px-6 py-5">
@@ -62,7 +76,7 @@ const Navbar = () => {
                 Tutup
               </button>
             </div>
-            <nav className="flex flex-1 flex-col gap-6 px-6 py-8">
+            <nav id="mobile-navigation" className="flex flex-1 flex-col gap-6 px-6 py-8">
               {navLinks.map((link) => (
                 <Link
                   key={link.label}
