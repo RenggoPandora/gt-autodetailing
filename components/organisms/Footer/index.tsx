@@ -17,9 +17,9 @@ const Footer = () => {
           <div className="space-y-3">
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white/60">Navigasi</p>
             <div className="flex flex-col gap-2">
-              <NavLink href="#services" label="Layanan" />
-              <NavLink href="#pricing" label="Harga" />
-              <NavLink href="#works" label="Portofolio" />
+                <NavLink href="/#services" label="Layanan" />
+                <NavLink href="/#pricing" label="Harga" />
+                <NavLink href="/#works" label="Portofolio" />
               <NavLink href="/blog" label="Blog" />
             </div>
           </div>

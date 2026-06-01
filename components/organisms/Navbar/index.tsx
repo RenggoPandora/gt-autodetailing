@@ -8,12 +8,12 @@ import { NavLink } from "@/components/molecules";
 import { BUSINESS } from "@/lib/constants/business";
 
 const navLinks = [
-  { label: "Beranda", href: "#home" },
-  { label: "Tentang", href: "#about" },
-  { label: "Layanan", href: "#services" },
-  { label: "Harga", href: "#pricing" },
-  { label: "Portofolio", href: "#works" },
-  { label: "Kontak", href: "#contact" },
+  { label: "Beranda", href: "/#home" },
+  { label: "Tentang", href: "/#about" },
+  { label: "Layanan", href: "/#services" },
+  { label: "Harga", href: "/#pricing" },
+  { label: "Portofolio", href: "/#works" },
+  { label: "Kontak", href: "/#contact" },
   { label: "Blog", href: "/blog" },
 ];
 
@@ -25,9 +25,9 @@ const Navbar = () => {
     <header className="sticky top-0 z-30 border-b border-white/10 bg-black/85 backdrop-blur">
       <MStripe />
       <Container className="flex h-16 items-center justify-between gap-6">
-        <a className="text-xs font-semibold uppercase tracking-[0.4em] text-white" href="#home">
+        <Link className="text-xs font-semibold uppercase tracking-[0.4em] text-white" href="/#home">
           {BUSINESS.name}
-        </a>
+        </Link>
         <nav className="hidden items-center gap-6 lg:flex">
           {navLinks.map((link) => (
             <NavLink key={link.label} href={link.href} label={link.label} />

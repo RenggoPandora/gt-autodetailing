@@ -1,6 +1,7 @@
 "use client";
 
-import { useFormState, useFormStatus } from "react-dom";
+import { useActionState } from "react";
+import { useFormStatus } from "react-dom";
 
 import { Button } from "@/components/atoms";
 import { FormField } from "@/components/molecules";
@@ -22,7 +23,7 @@ const SubmitButton = () => {
 };
 
 const AdminLoginForm = () => {
-  const [state, formAction] = useFormState(signIn, initialState);
+  const [state, formAction] = useActionState(signIn, initialState);
 
   return (
     <form className="space-y-6" action={formAction}>
